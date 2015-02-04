@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+    <h2 class="sub-header">添加客户</h2>
+
+    <form action="/customer_add/" method="POST" class="form-horizontal">
+
+      <div class="form-group">
+        <label  class="col-sm-2 control-label" >客户姓名:</label>
+        <input type="text" class="form-control"  style="display:inline;width:auto;" name="name" >
+      </div>
+      <div class="form-group">
+        <label  class="col-sm-2 control-label" >联系方式:</label>
+        <input type="text" class="form-control"  style="display:inline;width:auto;" name="phone" >
+      </div>
+      <div class="form-group">
+        <label  class="col-sm-2 control-label" >所在单位:</label>
+        <input type="text" class="form-control"  style="display:inline;width:auto;" name="company" >
+      </div>
+      <div class="form-group">
+        <label  class="col-sm-2 control-label" >备注资料:</label>
+        <input type="text" class="form-control"  style="display:inline;width:auto;" name="remark" >
+      </div>
+
+<!-- 
+      <p style="cursor: pointer" onclick="$(this).next().toggle()">
+        ------------------------------------ 自定义附加个性信息 ------------------------------------
+      </p>
+
+      <div class="form-group" >
+        <select class="form-control"  style="display:inline;width:auto;" name="caption_id" id="caption_id">
+            {% for caption in captions %}
+                <option value="{{ caption.id }}">{{ caption.name }}</option>
+            {% endfor %}
+            <option value="">自定义标题</option>
+        </select>
+        <input type="text" class="form-control"  style="display:inline;width:auto;" name="caption_name" id="caption_name">
+        <label>:</label>
+        <input type="text" class="form-control"  style="display:inline;width:auto;" name="content" >
+      </div>
+ -->
+      <div class="form-group">
+        <label  class="col-sm-2 control-label" ></label>
+        <button type="submit" class="btn btn-primary" style="width:100px">提交</button>
+      </div>
+
+
+    </form>
+
+
+
+
+    <script>
+        $("#added").addClass('active')
+
+
+        if($("#caption_id").val() != ""){
+          $("#caption_name").hide()
+        }
+
+        $("#caption_id").click(function(){
+          if($("#caption_id").val() == ""){
+            $("#caption_name").show()
+          }
+          else{
+            $("#caption_name").hide()
+          }
+        })
+    </script>
+
+{% endblock %}
+

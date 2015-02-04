@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+    <h2 class="sub-header">{{ customer.name }} 个性信息管理</h2>
+
+    <table class="tablesorter">
+        <thead>
+            <tr>
+                <th>标题</th>
+                <th>内容</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for r in customer.info.all %}
+                <tr>
+                    <td>{{ r.caption.name }}</td>
+                    <td>{{ r.content }}</td>
+
+                    <td>
+                        <a href="/info_del/?id={{ r.id }}&cid={{ customer.id }}" onclick="return confirm('确定要删除？')" class="btn btn-xs btn-danger">删除</a>
+                        <a style="cursor: pointer" onclick="$(this).next().toggle()" class="btn btn-xs btn-primary">修改</a>
+                        <form action="/info_update/" style="display: none" method="POST">
+                            <input type="hidden" name="id" value="{{ r.id }}"  />
+                            <input type="hidden" name="cid" value="{{ customer.id }}"  />
+                            更新内容:
+                            <input type="text" name="content" value="{{ r.content }}"  />
+                            <br/>
+                            <input type="submit" value="提交" />
+                        </form>
+                    </td>
+
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+
+
+      <p style="cursor: pointer" onclick="$(this).next().toggle()">
+        ------------------- 添加个性信息 -------------------
+      </p>
+
+
+    <form action="/info_add/" method="POST" class="form-horizontal">
+        <input type="hidden" name="cid" value="{{ customer.id }}" />
+      <div class="form-group" >
+        <select class="form-control"  style="display:inline;width:auto;" name="caption_id" id="caption_id">
+            {% for caption in captions %}
+                <option value="{{ caption.id }}">{{ caption.name }}</option>
+            {% endfor %}
+            <option value="">自定义标题</option>
+        </select>
+        <input type="text" class="form-control"  style="display:inline;width:auto;" name="caption_name" id="caption_name">
+        <label>:</label>
+        <input type="text" class="form-control"  style="display:inline;width:auto;" name="content" >
+      </div>
+
+      <div class="form-group">
+        <label  class="col-sm-2 control-label" ></label>
+        <button type="submit" class="btn btn-primary" style="width:100px">提交</button>
+      </div>
+    </form>
+
+
+    <script>
+        $("#customers").addClass('active')
+
+        if($("#caption_id").val() != ""){
+          $("#caption_name").hide()
+        }
+
+        $("#caption_id").click(function(){
+          if($("#caption_id").val() == ""){
+            $("#caption_name").show()
+          }
+          else{
+            $("#caption_name").hide()
+          }
+        })
+
+
+    </script>
+
+{% endblock %}
+

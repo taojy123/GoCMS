@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+    <h2 class="sub-header">我的客户</h2>
+
+    <table class="tablesorter">
+        <thead>
+            <tr>
+                <th>客户姓名</th>
+                <th>联系方式</th>
+                <th>所在单位</th>
+                <th>备注资料</th>
+                {% for caption in captions %}
+                    <th>{{ caption.name }}</th>
+                {% endfor %}
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for r in rs %}
+                <tr>
+                    <td>{{ r.name }}</td>
+                    <td>{{ r.phone }}</td>
+                    <td>{{ r.company }}</td>
+                    <td>{{ r.remark }}</td>
+
+                    {% for content in r.contents %}
+                        <td>{{ content }}</td>
+                    {% endfor %}
+
+                    <td>
+                        <a href="/customer_del/?id={{ r.id }}" onclick="return confirm('确定要删除？')" class="btn btn-xs btn-danger">删除</a>
+                        <a href="/customer_infos/?id={{ r.id }}" class="btn btn-xs btn-primary">个性信息管理</a>
+                        <a style="cursor: pointer" onclick="$(this).next().toggle()" class="btn btn-xs btn-primary">修改</a>
+                        <form action="/customer_update/" style="display: none" method="POST">
+                            <input type="hidden" name="id" value="{{ r.id }}"  />
+                            客户姓名:
+                            <input type="text" name="name" value="{{ r.name }}"  />
+                            <br/>
+                            联系方式:
+                            <input type="text" name="phone" value="{{ r.phone }}"  />
+                            <br/>
+                            所在单位:
+                            <input type="text" name="company" value="{{ r.company }}"  />
+                            <br/>
+                            备注资料:
+                            <input type="text" name="remark" value="{{ r.remark }}"  />
+                            <br/>
+                            <input type="submit" value="提交" />
+                        </form>
+                    </td>
+
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+
+    <script>
+        $("#customers").addClass('active')
+    </script>
+
+{% endblock %}
+
